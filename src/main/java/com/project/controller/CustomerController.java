@@ -6,10 +6,7 @@ import com.project.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -47,5 +44,18 @@ public class CustomerController {
         customerService.saveCustomer(customer);
 
         return "redirect:/customer/list";
+    }
+
+    @GetMapping("/showFormForUpdate")
+    public String showFormForUpdate(@RequestParam(name = "customerId") int customerId, Model theModel) {
+
+        // get customer by id from database
+        Customer customer = customerService.getCustomer(customerId);
+
+        // set customer as model attribute to pre-populate form
+        theModel.addAttribute("customer", customer);
+
+        // send over to form
+        return "customer-form";
     }
 }
