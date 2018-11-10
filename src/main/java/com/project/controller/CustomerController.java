@@ -5,6 +5,7 @@ import com.project.entity.Customer;
 import com.project.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,5 +58,14 @@ public class CustomerController {
 
         // send over to form
         return "customer-form";
+    }
+
+    @GetMapping(value = "/delete")
+    public String deleteCustomer(@RequestParam(name = "customerId") int customerId) {
+
+        // delete the customer
+        customerService.deleteCustomer(customerId);
+
+        return "redirect:/customer/list";
     }
 }
