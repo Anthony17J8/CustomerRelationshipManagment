@@ -6,7 +6,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -68,5 +67,26 @@ public class CustomerDAOImpl implements CustomerDAO {
         Query query = currentSession.createQuery("delete  from Customer c where c.id=:customerId");
         query.setParameter("customerId", customerId);
         query.executeUpdate();
+    }
+
+    @Override
+    public List<Customer> searchCustomers(String searchName) {
+
+        // get the current hibernate session
+        Session currentSession = sessionFactory.getCurrentSession();
+
+        Query<Customer> query = null;
+
+        // only search by name if searchName is not empty
+        if (searchName != null && searchName.trim().length() > 0) {
+            query = currentSession.createQuery("from Customer c where lower(c.firstName) like: searchName " +
+                    "or lower(c.lastName) like: searchName", Customer.class);
+            query.setParameter("searchName", "%" + searchName.toLowerCase() + "%");
+        } else {
+            // searchName is empty just get all customers
+            query = currentSession.createQuery("from Customer", Customer.class);
+        }
+        List<Customer> customers = query.getResultList();
+        return customers;
     }
 }
