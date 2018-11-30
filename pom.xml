@@ -16,6 +16,7 @@
         <jstl.version>1.2</jstl.version>
         <c3p0.version>0.9.5.2</c3p0.version>
         <spring.version>5.1.1.RELEASE</spring.version>
+        <aspectj.version>1.9.2</aspectj.version>
     </properties>
 
     <dependencies>
@@ -59,6 +60,11 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
             <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
         </dependency>
     </dependencies>
 
